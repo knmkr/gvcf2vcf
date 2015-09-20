@@ -1,0 +1,6 @@
+#!/usr/bin/env bash
+
+G_VCF=$1
+REF=$2
+
+${BASE_DIR}/bin/break_blocks --region-file ${BASE_DIR}/reference/${REF}.region.bed --ref ${BASE_DIR}/reference/${REF}.fa ${G_VCF}
