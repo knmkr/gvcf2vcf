@@ -1,5 +1,5 @@
-samtools_varsion = 1.2
-samtools = src/samtools-$(samtools_varsion)/samtools
+samtools_version = 1.2
+samtools = src/samtools-$(samtools_version)/samtools
 
 gvcftools_version = 0.16
 gvcftools = src/gvcftools-$(gvcftools_version)/bin
@@ -15,9 +15,9 @@ src:
 	mkdir -p src
 
 $(samtools):
-	cd src; wget -c https://github.com/samtools/samtools/releases/download/$(samtools_varsion)/samtools-$(samtools_varsion).tar.bz2
-	cd src; bzip2 -dc samtools-$(samtools_varsion).tar.bz2| tar xvf -
-	cd src/samtools-$(samtools_varsion); make
+	cd src; wget -c https://github.com/samtools/samtools/releases/download/$(samtools_version)/samtools-$(samtools_version).tar.bz2
+	cd src; bzip2 -dc samtools-$(samtools_version).tar.bz2| tar xvf -
+	cd src/samtools-$(samtools_version); make
 
 $(gvcftools):
 	cd src; wget -c https://sites.google.com/site/gvcftools/home/download/gvcftools-$(gvcftools_version).tar.gz
@@ -30,7 +30,7 @@ bin:
 	mkdir -p bin
 
 bin/samtools:
-	cd src/samtools-$(samtools_varsion); make prefix=../../ install
+	cd src/samtools-$(samtools_version); make prefix=../../ install
 
 bin/gvcftools:
 	ln -s $(PWD)/src/gvcftools-$(gvcftools_version)/bin/* bin
