@@ -8,7 +8,7 @@ programs = src $(samtools) $(gvcftools)
 references = $(reference_dir) reference/GRCh37.p13.fa.fai
 
 
-all: $(programs) $(references)
+all: $(programs) $(references) bin bin/samtools bin/gvcftools
 
 src:
 	mkdir -p src
@@ -22,8 +22,6 @@ $(gvcftools):
 	cd src; wget -c https://github.com/sequencing/gvcftools/releases/download/v$(gvcftools_version)/gvcftools-$(gvcftools_version).tar.gz
 	cd src; tar -xzf gvcftools-$(gvcftools_version).tar.gz
 	cd src/gvcftools-$(gvcftools_version); make
-
-install: bin bin/samtools bin/gvcftools
 
 bin:
 	mkdir -p bin
