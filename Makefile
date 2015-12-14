@@ -1,15 +1,14 @@
 samtools_version = 1.2
 samtools = src/samtools-$(samtools_version)/samtools
 
-gvcftools_version = 0.16
+gvcftools_version = 0.17.0
 gvcftools = src/gvcftools-$(gvcftools_version)/bin
 
 programs = src $(samtools) $(gvcftools)
+references = $(reference_dir) reference/GRCh37.p13.fa.fai
 
-references = $(reference_dir) reference/grch37.p13.fa.fai reference/hg19.fa.fai
 
-
-all: $(programs)
+all: $(programs) $(references)
 
 src:
 	mkdir -p src
@@ -20,7 +19,7 @@ $(samtools):
 	cd src/samtools-$(samtools_version); make
 
 $(gvcftools):
-	cd src; wget -c https://sites.google.com/site/gvcftools/home/download/gvcftools-$(gvcftools_version).tar.gz
+	cd src; wget -c https://github.com/sequencing/gvcftools/releases/download/v$(gvcftools_version)/gvcftools-$(gvcftools_version).tar.gz
 	cd src; tar -xzf gvcftools-$(gvcftools_version).tar.gz
 	cd src/gvcftools-$(gvcftools_version); make
 
@@ -40,18 +39,9 @@ reference: $(references)
 reference_dir:
 	mkdir -p reference
 
-reference/grch37.p13.fa:
-	cd reference; wget -r ftp://ftp.ncbi.nlm.nih.gov/genbank/genomes/Eukaryotes/vertebrates_mammals/Homo_sapiens/GRCh37.p13/Primary_Assembly/assembled_chromosomes/FASTA/
+reference/GRCh37.p13.fa:
+	cd reference; wget -r ftp://ftp.ncbi.nlm.nih.gov/genomes/archive/old_genbank/Eukaryotes/vertebrates_mammals/Homo_sapiens/GRCh37.p13/Primary_Assembly/assembled_chromosomes/FASTA/
 	cd reference; for x in {1..22} X Y; do gzip -dc chr${x}.fa.gz >> GRCh37.p13.fa; done
 
-reference/hg19.fa:
-	cd reference; wget -r http://hgdownload.cse.ucsc.edu/goldenPath/hg19/bigZips/chromFa.tar.gz -O hg19.tar.gz
-	cd reference; tar xvzf hg19.tar.gz
-
-# TODO: DRY
-reference/grch37.p13.fa.fai: bin/samtools reference/grch37.p13.fa
-	bin/samtools faidx reference/grch37.p13.fa
-
-# TODO: DRY
-reference/hg19.fa.fai: bin/samtools reference/hg19.fa
-	bin/samtools faidx reference/hg19.fa
+reference/GRCh37.p13.fa.fai: bin/samtools reference/GRCh37.p13.fa
+	bin/samtools faidx reference/GRCh37.p13.fa
