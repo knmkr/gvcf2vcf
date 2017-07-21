@@ -1,4 +1,4 @@
-samtools_version = 1.2
+samtools_version = 1.5
 samtools = src/samtools-$(samtools_version)/samtools
 
 gvcftools_version = 0.17.0
